@@ -16,7 +16,7 @@ $(document).ready(function () {
     isOperatorChosen = false;
     isCalculated = false;
 
-    $("#first-number, #second-number, #operator, #this-result").empty();
+    // Call to the db to get the last 10 calculations
     $.ajax({
       type: "GET",
       url: "/api/",
@@ -27,8 +27,9 @@ $(document).ready(function () {
     });
   }
 
+  // Handle clicks on numbers
   $(".number").on("click", function () {
-    // Check if we've already run a calculation, if so... we'll just.
+    // Check if we've already run a calculation, if so... we'll just exit.
     if (isCalculated) {
       return false;
     }
@@ -43,6 +44,7 @@ $(document).ready(function () {
     }
   });
 
+  // Handle clicks on operators
   $(".operator").on("click", function () {
     // Check if a first number has already been selected
     // Or we've already run a calculation, if so we just exit.
@@ -60,6 +62,7 @@ $(document).ready(function () {
     $("#operator").text($(this).text().trim());
   });
 
+  // Handle clicks on "equals" button
   $(".equal").on("click", function () {
     // If we already clicked equal, don't do the calculation again
     if (isCalculated) {
@@ -73,8 +76,8 @@ $(document).ready(function () {
     firstNumber = parseInt(firstNumber);
     secondNumber = parseInt(secondNumber);
 
-    // Based on the operator that was chosen.
-    // Then run the operation and set the HTML of the result of that operation
+    // Based on the operator that was chosen,
+    // run the operation and set the HTML of the result of that operation
     if (operator === "plus") {
       result = firstNumber + secondNumber;
     } else if (operator === "minus") {
@@ -87,12 +90,13 @@ $(document).ready(function () {
       result = Math.pow(firstNumber, secondNumber);
     }
 
+    // Render result of calculation to current calculation card
     $("#this-result").text(result);
 
-    let calc = `${firstNumber} ${$(
-      "#operator"
-    ).text()} ${secondNumber} = ${result}`;
+    // Variable that makes a string out of the calculation, that we will add to the DB
+    let calc = `${firstNumber} ${$("#operator").text()} ${secondNumber} = ${result}`;
 
+    // Add the calculation to the DB
     $.ajax({
       type: "POST",
       url: "/api/submit",
@@ -104,6 +108,16 @@ $(document).ready(function () {
       $("#results-card").empty();
       initializeCalculator();
     });
+  });
+
+  // Handle click on "clear" button
+  $(".clear").on("click", function () {
+    // Empty the results card prior to populating it with 10 most recent calculations
+    $("#results-card").empty();
+    // Empty the current calculation card
+    $("#first-number, #second-number, #operator, #this-result").empty();
+    // Call initializeCalculator so we can reset the state of our app
+    initializeCalculator();
   });
 
   // Call initializeCalculater so we can set the state of our app

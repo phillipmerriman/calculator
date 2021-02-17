@@ -1,6 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const mongojs = require("mongojs");
 const apiRoutes = require("./routes/api-routes");
 const htmlRoutes = require("./routes/html-routes");
 

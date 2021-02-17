@@ -20,6 +20,7 @@ const calc3 = new Calculation({
   calculation: "81 / 9 = 9",
 });
 
+// In case we want to pre-populate the page
 const defaultCalcs = [calc1, calc2, calc3];
 
 module.exports = Calculation;
