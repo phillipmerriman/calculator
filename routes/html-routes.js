@@ -1,5 +1,4 @@
 const path = require('path');
-const express = require("express");
 
 // export all routes in one function
 module.exports = function (app) {

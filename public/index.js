@@ -16,16 +16,15 @@ $(document).ready(function () {
     isOperatorChosen = false;
     isCalculated = false;
 
-    $.ajax({
-        type: "GET",
-        url: "/api/",
-    }).then(function (data) {
-        data.map((index) => {
-          $("#results-card").prepend(`<h1">${index.calculation}</h1><hr />`);
-        });        
-    });
-
     $("#first-number, #second-number, #operator, #this-result").empty();
+    $.ajax({
+      type: "GET",
+      url: "/api/",
+    }).then(function (data) {
+      data.slice(-10).map((index) => {
+        $("#results-card").prepend(`<h1">${index.calculation}</h1><hr />`);
+      });
+    });
   }
 
   $(".number").on("click", function () {
@@ -89,27 +88,22 @@ $(document).ready(function () {
     }
 
     $("#this-result").text(result);
-    
-    let calc = firstNumber + $("#operator").text() + secondNumber + " = " + result;
-    
-    $.ajax({
-        type: "POST",
-        url: "/api/submit",
-        dataType: "json",
-        data: {
-            calculation: calc,
-        },
-    }).then(function (data) {
-        $("#results-card").prepend(
-          `<h1">${data.calculation}</h1><hr />`
-        );
-    });
-  });
 
-  $(".clear").on("click", function () {
-    $("#results-card").empty();
-    // Call initializeCalculator so we can reset the state of our app
-    initializeCalculator();
+    let calc = `${firstNumber} ${$(
+      "#operator"
+    ).text()} ${secondNumber} = ${result}`;
+
+    $.ajax({
+      type: "POST",
+      url: "/api/submit",
+      dataType: "json",
+      data: {
+        calculation: calc,
+      },
+    }).then(function (data) {
+      $("#results-card").empty();
+      initializeCalculator();
+    });
   });
 
   // Call initializeCalculater so we can set the state of our app

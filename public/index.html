@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>jQuery Calculator</title>
+    <title>Sezzle Calculator</title>
 
     <!-- Added link to the jQuery Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -18,10 +18,8 @@
   </head>
   <body>
     <div class="jumbotron">
-      <h1 class="text-center">jQuery Calculator</h1>
-      <h3 class="text-center">
-        Perform basic mathematic operations using the power of jQuery!
-      </h3>
+      <h1 class="text-center">The Calculator</h1>
+      <h3 class="text-center">A calculator for Sezzle!</h3>
     </div>
 
     <div class="container">
@@ -107,22 +105,14 @@
               >
                 <span>=</span>
               </button>
-              <br /><br />
-              <button
-                id="button-clear"
-                class="btn btn-dark clear"
-                value="clear"
-              >
-                <span>clear</span>
-              </button>
             </div>
           </div>
         </div>
 
         <!-- Calculation Card -->
-        <div class="col-lg-6">
+        <div class="col-lg-4">
           <div class="card">
-            <h3 class="card-header">Calculations</h3>
+            <h3 class="card-header">Current Calculation</h3>
             <div class="card-body">
               <h1 id="first-number"></h1>
               <h1 id="operator"></h1>
@@ -132,17 +122,11 @@
             </div>
           </div>
         </div>
-        <!-- Result Card -->
-        <div class="col-lg-6">
+        <!-- Previous Calculations Card -->
+        <div class="col-lg-4">
           <div class="card">
-            <h3 class="card-header">Results</h3>
-            <div class="card-body" id="results-card">
-              <!-- <h1 id="first-number"></h1>
-              <h1 id="operator"></h1>
-              <h1 id="second-number"></h1>
-              <h1 id="results"></h1>
-              <hr /> -->
-            </div>
+            <h3 class="card-header">Previous Calculations</h3>
+            <div class="card-body" id="results-card"></div>
           </div>
         </div>
       </div>
