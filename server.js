@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the database
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/calculator", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/calculator", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
