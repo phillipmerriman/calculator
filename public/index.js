@@ -16,19 +16,14 @@ $(document).ready(function () {
     isOperatorChosen = false;
     isCalculated = false;
 
-    // $.ajax({
-    //     type: "GET",
-    //     url: "/",
-    //     dataType: "json",
-    //     data: {
-    //         title: calc,
-    //     },
-    // }).then(function (data) {
-    //     console.log(data.title);
-    //     $("#results-card").prepend(
-    //       `<h1">${data.title}</h1><hr />`
-    //     );
-    // });
+    $.ajax({
+        type: "GET",
+        url: "/api/",
+    }).then(function (data) {
+        data.map((index) => {
+          $("#results-card").prepend(`<h1">${index.calculation}</h1><hr />`);
+        });        
+    });
 
     $("#first-number, #second-number, #operator, #this-result").empty();
   }
@@ -63,7 +58,7 @@ $(document).ready(function () {
     operator = $(this).val();
 
     // Set the HTML of the #operator to the text of what was clicked
-    $("#operator").text($(this).text());
+    $("#operator").text($(this).text().trim());
   });
 
   $(".equal").on("click", function () {
@@ -99,20 +94,20 @@ $(document).ready(function () {
     
     $.ajax({
         type: "POST",
-        url: "/submit",
+        url: "/api/submit",
         dataType: "json",
         data: {
-            title: calc,
+            calculation: calc,
         },
     }).then(function (data) {
-        console.log(data.title);
         $("#results-card").prepend(
-          `<h1">${data.title}</h1><hr />`
+          `<h1">${data.calculation}</h1><hr />`
         );
     });
   });
 
   $(".clear").on("click", function () {
+    $("#results-card").empty();
     // Call initializeCalculator so we can reset the state of our app
     initializeCalculator();
   });
