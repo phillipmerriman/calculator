@@ -106,7 +106,6 @@ $(document).ready(function () {
       },
     }).then(function (data) {
       $("#results-card").empty();
-      location.reload();
       initializeCalculator();
     });
   });
