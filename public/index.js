@@ -10,10 +10,8 @@ $(document).ready(function () {
 
   //========================================
   // Make websocket connection
-  let host = location.origin;
-  let socket = io.connect(host, { port: PORT, transports: ["websocket"] });
   
-  // let socket = io.connect("http://localhost:3000");
+  let socket = io.connect("http://localhost:3000");
   //========================================
 
   // Use a function to initialize our calculator.
