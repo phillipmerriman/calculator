@@ -11,7 +11,7 @@ $(document).ready(function () {
   //========================================
   // Make websocket connection
   
-  let socket = io.connect("http://localhost:3000");
+  let socket = io.connect( process.env.PORT ||"http://localhost:3000");
   //========================================
 
   // Use a function to initialize our calculator.
