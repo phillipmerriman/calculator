@@ -2,3 +2,15 @@
 button > span {
     font-size: 2.5rem;
 }
+
+.card-header {
+    background-color: burlywood;
+}
+
+.card-body {
+    background-color: bisque;
+}
+
+.clear {
+    background-color: #8333d4;
+}

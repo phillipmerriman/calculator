@@ -4,7 +4,7 @@ const apiRoutes = require("./routes/api-routes");
 const htmlRoutes = require("./routes/html-routes");
 const socket = require("socket.io");
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 
@@ -41,5 +41,9 @@ io.on("connection", function (socket) {
   
   socket.on("newCalc", function (data) {
     io.sockets.emit("newCalc", data);
+  });
+
+  socket.on("calculating", function (data) {
+    socket.broadcast.emit("calculating", data);
   });
 });
