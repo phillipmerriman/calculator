@@ -2,8 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const apiRoutes = require("./routes/api-routes");
 const htmlRoutes = require("./routes/html-routes");
+const socket = require("socket.io");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 
@@ -28,6 +29,17 @@ app.use("/api/", apiRoutes);
 app.use("/", htmlRoutes);
 
 // Start our server so that it can begin listening to client requests
-app.listen(PORT, () => {
+let server = app.listen(PORT, () => {
   console.log(`App running at http://localhost:${PORT}`);
+});
+
+// Socket setup
+const io = socket(server);
+
+io.on("connection", function (socket) {
+  console.log("made socket connection!!!!!!!!!!!!!! WOOOOOOOOOO!!!!!!", socket.id);
+  
+  socket.on("newCalc", function (data) {
+    io.sockets.emit("newCalc", data);
+  });
 });
