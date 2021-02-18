@@ -6,9 +6,15 @@ $(document).ready(function () {
   let result = 0;
   let isOperatorChosen = false;
   let isCalculated = false;
+  let feedback = document.getElementById("feedback");
 
+  //========================================
   // Make websocket connection
-  let socket = io.connect("http://localhost:3001");
+  let host = location.origin;
+  let socket = io.connect(host, { port: PORT, transports: ["websocket"] });
+  
+  // let socket = io.connect("http://localhost:3000");
+  //========================================
 
   // Use a function to initialize our calculator.
   // This way when the user hits clear, we can guarantee a reset of the app.
@@ -37,6 +43,7 @@ $(document).ready(function () {
       return false;
     }
 
+    socket.emit("calculating", "Someone is calculating...");
     // If operator is chosen, we should be writing the secondNumber, otherwise, the firstNumber
     if (isOperatorChosen) {
       secondNumber += $(this).val();
@@ -97,7 +104,9 @@ $(document).ready(function () {
     $("#this-result").text(result);
 
     // Variable that makes a string out of the calculation, that we will add to the DB
-    let calc = `${firstNumber} ${$("#operator").text()} ${secondNumber} = ${result}`;
+    let calc = `${firstNumber} ${$(
+      "#operator"
+    ).text()} ${secondNumber} = ${result}`;
 
     // Add the calculation to the DB
     $.ajax({
@@ -113,11 +122,11 @@ $(document).ready(function () {
       socket.emit("newCalc", data.calculation);
       initializeCalculator();
     });
-
   });
 
   // Handle click on "clear" button
   $(".clear").on("click", function () {
+    
     // Empty the results card prior to populating it with 10 most recent calculations
     $("#results-card").empty();
     // Empty the current calculation card
@@ -128,10 +137,15 @@ $(document).ready(function () {
 
   // Listen for events
   socket.on("newCalc", function (data) {
+    feedback.innerHTML = "";
     // Add newest calculation to all front ends
-    $("#results-card").prepend(`<h1">${data}</h1><hr />`); 
+    $("#results-card").prepend(`<h1">${data}</h1><hr />`);
     // Remove last child of results div
     $("#results-card").children().last().remove();
+  });
+
+  socket.on("calculating", function (data) {
+    feedback.innerHTML = `<h1">${data}</h1><hr />`;
   });
 
   // Call initializeCalculater so we can set the state of our app
