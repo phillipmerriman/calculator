@@ -7,6 +7,9 @@ $(document).ready(function () {
   let isOperatorChosen = false;
   let isCalculated = false;
 
+  // Make websocket connection
+  let socket = io.connect("http://localhost:3001");
+
   // Use a function to initialize our calculator.
   // This way when the user hits clear, we can guarantee a reset of the app.
   function initializeCalculator() {
@@ -105,9 +108,12 @@ $(document).ready(function () {
         calculation: calc,
       },
     }).then(function (data) {
+      console.log(data.calculation);
       $("#results-card").empty();
+      socket.emit("newCalc", data.calculation);
       initializeCalculator();
     });
+
   });
 
   // Handle click on "clear" button
@@ -118,6 +124,14 @@ $(document).ready(function () {
     $("#first-number, #second-number, #operator, #this-result").empty();
     // Call initializeCalculator so we can reset the state of our app
     initializeCalculator();
+  });
+
+  // Listen for events
+  socket.on("newCalc", function (data) {
+    // Add newest calculation to all front ends
+    $("#results-card").prepend(`<h1">${data}</h1><hr />`); 
+    // Remove last child of results div
+    $("#results-card").children().last().remove();
   });
 
   // Call initializeCalculater so we can set the state of our app
